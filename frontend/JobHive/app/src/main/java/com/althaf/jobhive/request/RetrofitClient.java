@@ -1,4 +1,5 @@
-package althaf.jobhive_android.request;
+package com.althaf.jobhive.request;
+
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
