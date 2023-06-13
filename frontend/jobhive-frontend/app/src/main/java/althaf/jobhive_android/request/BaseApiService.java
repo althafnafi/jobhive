@@ -13,9 +13,9 @@ public interface BaseApiService {
                     @Query("password") String password
             );
 
-    @GET("/users")
-    Call<User> getAllUsers
-            (
-
-            );
+//    @GET("/users")
+//    Call<User> getAllUsers
+//            (
+//
+//            );
 }

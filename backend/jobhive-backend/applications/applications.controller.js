@@ -44,7 +44,24 @@ class ApplicationController {
 
     try {
       const application = await db.query(
-        `SELECT * FROM job_applications WHERE app_id = ${application_id};`
+        `SELECT 
+        A.app_id as application_id,
+        J.employer_id,
+        U.full_name as full_name,
+        U.email as email,
+        U.address as user_address,
+        J.job_title,
+        J.job_cat,
+        J.job_desc,
+        J.salary_avg,
+        J.job_req
+        FROM 
+        job_applications AS A
+        INNER JOIN
+        job_listings AS J ON J.job_id = A.job_id
+        INNER JOIN
+        users as U ON U.user_id = A.user_id
+        WHERE A.app_id = ${application_id};`
       );
       const msg =
         application.rows.length === 0
@@ -66,7 +83,24 @@ class ApplicationController {
 
     try {
       const applications = await db.query(
-        `SELECT * FROM job_applications WHERE job_id = ${job_id};`
+        `SELECT 
+        A.app_id as application_id,
+        J.employer_id,
+        U.full_name as full_name,
+        U.email as email,
+        U.address as user_address,
+        J.job_title,
+        J.job_cat,
+        J.job_desc,
+        J.salary_avg,
+        J.job_req
+        FROM 
+        job_applications AS A
+        INNER JOIN
+        job_listings AS J ON J.job_id = A.job_id
+        INNER JOIN
+        users as U ON U.user_id = A.user_id
+        WHERE A.job_id = ${job_id};`
       );
       const msg =
         applications.rows.length === 0
@@ -94,7 +128,24 @@ class ApplicationController {
     }
     try {
       const applications = await db.query(
-        `SELECT * FROM job_applications WHERE user_id = ${user_id};`
+        `SELECT 
+        A.app_id as application_id,
+        J.employer_id,
+        U.full_name as full_name,
+        U.email as email,
+        U.address as user_address,
+        J.job_title,
+        J.job_cat,
+        J.job_desc,
+        J.salary_avg,
+        J.job_req
+        FROM 
+        job_applications AS A
+        INNER JOIN
+        job_listings AS J ON J.job_id = A.job_id
+        INNER JOIN
+        users as U ON U.user_id = A.user_id
+        WHERE A.user_id = ${user_id};`
       );
       const msg =
         applications.rows.length === 0
