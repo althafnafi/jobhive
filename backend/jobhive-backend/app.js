@@ -24,9 +24,11 @@ db.connect((err) => {
 const UsersRouter = require("./users/users.routes");
 const JobsRouter = require("./jobs/jobs.routes");
 const EmployersRouter = require("./employers/employers.routes");
+const ApplicationsRouter = require("./applications/applications.routes");
 
 app.use("/api/jobs", JobsRouter);
 app.use("/api/users", UsersRouter);
 app.use("/api/employers", EmployersRouter);
+app.use("/api/applications", ApplicationsRouter);
 
 module.exports = app;

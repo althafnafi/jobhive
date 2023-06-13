@@ -158,6 +158,45 @@ class JobController {
       return;
     }
   }
+
+  async apply(req, res) {
+    const { job_id, user_id } = req.body;
+
+    try {
+      // Check if the job listing exists
+      const jobQuery = `SELECT * FROM job_listings WHERE job_id = ${job_id}`;
+      const jobRes = await db.query(jobQuery);
+      const jobListing = jobRes.rows[0];
+      if (!jobListing) {
+        res.status(404).json(buildResp("Job listing not found"));
+        return;
+      }
+      // Check if the user exists
+      const userQuery = `SELECT * FROM users WHERE user_id = ${user_id}`;
+      const userRes = await db.query(userQuery);
+      const user = userRes.rows[0];
+      if (!user) {
+        res.status(404).json(buildResp("User not found"));
+        return;
+      }
+
+      // Insert the job application
+      const insertQuery = `INSERT INTO job_applications 
+                            (job_id, user_id) 
+                            VALUES 
+                            (${job_id}, ${user_id})
+                            RETURNING *;`;
+      const application = await db.query(insertQuery);
+      res
+        .status(201)
+        .json(
+          buildResp("Job application created successfully", application.rows[0])
+        );
+    } catch (error) {
+      console.error(error.message);
+      res.status(400).json(buildResp("Job application failed"));
+    }
+  }
 }
 
 module.exports = JobController;

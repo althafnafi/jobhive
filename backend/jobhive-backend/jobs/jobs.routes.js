@@ -10,6 +10,7 @@ JobsRouter.get("/:job_id", Jobs.getById);
 
 // POST ROUTES
 JobsRouter.post("/", Jobs.create);
+JobsRouter.post("/apply", Jobs.apply);
 
 // PATCH ROUTES
 JobsRouter.patch("/:job_id", Jobs.updateById);
