@@ -1,0 +1,40 @@
+[create table]
+
+CREATE TABLE Users (
+  user_id serial PRIMARY KEY,
+  full_name varchar(255),
+  email varchar(255) UNIQUE NOT NULL,
+  password varchar(255) NOT NULL,
+  address text
+);
+
+CREATE TABLE Employers (
+  employer_id serial PRIMARY KEY,
+  full_name varchar(255) NOT NULL,
+  company_name varchar(255) NOT NULL,
+  email varchar(255) UNIQUE NOT NULL,
+  password varchar(255) UNIQUE NOT NULL,
+  address text NOT NULL
+);
+
+CREATE TABLE Job_Listings (
+  job_id serial PRIMARY KEY,
+  job_title varchar(255) NOT NULL,
+  job_cat varchar(255) NOT NULL,
+  job_desc text NOT NULL,
+  salary_avg bigint,
+  job_req text,
+  employer_id serial
+);
+
+CREATE TABLE Job_Applications (
+  app_id serial PRIMARY KEY,
+  job_id serial,
+  user_id serial
+);
+
+ALTER TABLE Job_Listings ADD FOREIGN KEY (employer_id) REFERENCES Employers (employer_id);
+
+ALTER TABLE Job_Applications ADD FOREIGN KEY (job_id) REFERENCES Job_Listings (job_id);
+
+ALTER TABLE Job_Applications ADD FOREIGN KEY (user_id) REFERENCES Users (user_id);
