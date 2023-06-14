@@ -5,6 +5,7 @@ class JobController {
   async getAll(req, res) {
     try {
       const jobs = await db.query("SELECT * FROM job_listings;");
+      console.log(jobs.rows);
       res.status(200).send(buildResp("Jobs retrieved successfully", jobs.rows));
     } catch (err) {
       console.error(err.message);

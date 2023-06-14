@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         confirmRegBtn.setOnClickListener(view -> {
             // Call API to register
-            reqGetFirstUser();
+            reqGetUserById(2);
             Toast.makeText(ctx,"Clicked", Toast.LENGTH_SHORT).show();
 //            Log.d("DEBUG","Clicked");
         });
@@ -80,10 +80,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
-//                    Toast.makeText(ctx, "Successful", Toast.LENGTH_SHORT);
-//                    List<User> userList = response.body();
-//                    Log.d("DEBUG", response.body().toString());
-
+                    List<User> users = response.body();
+                    for (User user : users) {
+                        Log.d("req", user.toString());
+                    }
                 } else {
                     Toast.makeText(ctx, "Weird", Toast.LENGTH_SHORT);
                 }
@@ -91,24 +91,24 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(ctx, "Failed", Toast.LENGTH_SHORT);
-                Log.d("DEBUG", "Failed");
+                Log.d("DEBUG", "onFailure: get all users");
             }
         });
     }
 
-    protected void reqGetFirstUser() {
-        apiServ.getFirstUser().enqueue(new Callback<List<User>>() {
+    protected void reqGetUserById(int user_id) {
+        apiServ.getUserById(user_id).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                User firstUser = response.body().get(0);
-                Log.d("DEBUG", firstUser.email);
-
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    User user = response.body();
+                    Log.d("req", user.toString());
+                }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.d("DEBUG", String.valueOf(t));
+            public void onFailure(Call<User> call, Throwable t) {
+
             }
         });
     }
