@@ -23,6 +23,12 @@ public class User{
         this.address = address;
     }
 
+    public User(String full_name, String email, String password) {
+        this.full_name = full_name;
+        this.email = email;
+        this.password = password;
+    }
+
     public String toString() {
         return "{" +
                 "user_id=" + user_id +

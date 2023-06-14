@@ -72,7 +72,9 @@ class UserController {
         VALUES ('${full_name}', '${email}', '${hashedPassword}') 
         RETURNING *;`
       );
-      res.status(200).send(buildResp("User created successfully", user.rows));
+      res
+        .status(200)
+        .send(buildResp("User created successfully", user.rows[0]));
     } catch (err) {
       console.error(err.message);
       return;

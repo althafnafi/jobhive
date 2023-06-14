@@ -8,15 +8,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.google.gson.Gson;
 
 import com.althaf.jobhive.model.User;
 import com.althaf.jobhive.request.ApiUtils;
 import com.althaf.jobhive.request.BaseApiService;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,7 +22,7 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     BaseApiService apiServ;
-    EditText emailBox, passBox;
+    EditText nameBox, emailBox, passBox;
     Button confirmRegBtn;
 
     Context ctx;
@@ -40,37 +36,62 @@ public class RegisterActivity extends AppCompatActivity {
         ctx = this;
 
         // Define components
-        emailBox = findViewById(R.id.emailBoxReg);
-        passBox = findViewById(R.id.passBoxReg);
-        confirmRegBtn = findViewById(R.id.registerBtnReg);
+        nameBox = findViewById(R.id.nameBoxEmpReg);
+        emailBox = findViewById(R.id.emailBoxEmpReg);
+        passBox = findViewById(R.id.passBoxEmpReg);
+        confirmRegBtn = findViewById(R.id.regButtonEmpReg);
 
         confirmRegBtn.setOnClickListener(view -> {
             // Call API to register
-            reqGetUserById(2);
-            Toast.makeText(ctx,"Clicked", Toast.LENGTH_SHORT).show();
-//            Log.d("DEBUG","Clicked");
+            reqRegister();
+            clearFields();
         });
     }
 
+    private void clearFields() {
+        nameBox.setText("");
+        emailBox.setText("");
+        passBox.setText("");
+    }
+    protected void reqRegister() {
+        String name = nameBox.getText().toString();
+        String email = emailBox.getText().toString();
+        String password = passBox.getText().toString();
 
-    protected void requestRegister() {
-        String inp_email = emailBox.getText().toString();
-        String inp_pass = passBox.getText().toString();
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(ctx, "Please fill all fields", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        User user_body = new User(
+                name,
+                email,
+                password
+        );
+
         apiServ.registerUser(
-                inp_email,
-                inp_pass
+                user_body
         ).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(ctx, "Successfully registered a new account", Toast.LENGTH_LONG).show();
+                    User user = response.body();
+                    if (user == null) {
+                        Toast.makeText(ctx, "User is null", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Toast.makeText(ctx, "Registration successful", Toast.LENGTH_LONG).show();
+                    Log.d("DEBUG_DATA", user.toString());
                 } else {
-                    Toast.makeText(ctx, "Something weird happened?", Toast.LENGTH_LONG).show();
+                    Log.d("DEBUG_DATA", "fail: registerUser");
+                    Toast.makeText(ctx, "Registration failed", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(ctx,"Registration failed", Toast.LENGTH_LONG).show();
+                Log.d("DEBUG_DATA", "fail: registerUser -> " + t.toString());
+                Toast.makeText(ctx, "Registration failed", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -80,18 +101,25 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
+                    Log.d("DEBUG_DATA", "success: getAllUsers");
+                    Toast.makeText(ctx, "Successfully registered account", Toast.LENGTH_LONG).show();
                     List<User> users = response.body();
+                    if (users == null) {
+                        Log.d("DEBUG_DATA", "users is null");
+                        return;
+                    }
+
                     for (User user : users) {
-                        Log.d("req", user.toString());
+                        Log.d("DEBUG_DATA", user.toString());
+                        Toast.makeText(ctx, "Registration failed", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(ctx, "Weird", Toast.LENGTH_SHORT);
+                    Log.d("DEBUG_DATA", "fail: getAllUsers");
                 }
             }
-
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.d("DEBUG", "onFailure: get all users");
+                Log.d("DEBUG_DATA", "fail: getAllUsers -> " + t.toString());
             }
         });
     }
@@ -101,14 +129,23 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
+                    if (response.body() == null) {
+                        Log.d("DEBUG_DATA", "user is null");
+                        return;
+                    }
+                    Log.d("DEBUG_DATA", "success: getUserById");
+
                     User user = response.body();
-                    Log.d("req", user.toString());
+                    Log.d("DEBUG_DATA", user.toString());
+
+                } else {
+                    Log.d("DEBUG_DATA", "fail: getUserById");
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                Log.d("DEBUG_DATA", "fail: getUserById -> " + t.toString());
             }
         });
     }
