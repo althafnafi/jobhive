@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/jobTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:maxWidth="200dp"
+                android:text="Junior Software Engineer"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.099" />
+
+            <TextView
+                android:id="@+id/companyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Netlab Corporation"
+                android:textColor="@color/grey1"
+                android:maxWidth="150dp"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/jobTitle"
+                app:layout_constraintTop_toBottomOf="@+id/jobTitle" />
+
+            <TextView
+                android:id="@+id/avgSalary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="$50.000/yr"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/jobTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/jobTitle" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="8dp"
+
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/grey2"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/companyName">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/cityIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:tint="@color/grey1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/address_icon" />
+
+                    <ImageView
+                        android:id="@+id/descIcon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="3dp"
+                        android:tint="@color/grey1"
+                        app:layout_constraintBottom_toBottomOf="@+id/jobDescription"
+                        app:layout_constraintEnd_toEndOf="@+id/cityIcon"
+                        app:layout_constraintStart_toStartOf="@+id/cityIcon"
+                        app:layout_constraintTop_toTopOf="@+id/jobDescription"
+                        app:srcCompat="@drawable/register_icon" />
+
+                    <TextView
+                        android:id="@+id/cityLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Jakarta"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                        app:layout_constraintStart_toEndOf="@+id/cityIcon"
+                        app:layout_constraintTop_toTopOf="@+id/cityIcon" />
+
+                    <TextView
+                        android:id="@+id/jobDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/montserrat_med"
+                        android:maxWidth="280dp"
+                        android:text="An advertisement specialist that gives advice on marketing..."
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/cityLocation"
+                        app:layout_constraintTop_toBottomOf="@+id/cityLocation" />
+
+                    <TextView
+                        android:id="@+id/lastUpdated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/montserrat_med"
+                        android:maxWidth="250dp"
+                        android:text="TextView"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/jobDescription"
+                        app:layout_constraintTop_toBottomOf="@+id/jobDescription" />
+
+                    <ImageView
+                        android:id="@+id/clockIcon"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:tint="@color/grey1"
+                        app:layout_constraintBottom_toBottomOf="@+id/lastUpdated"
+                        app:layout_constraintEnd_toEndOf="@+id/descIcon"
+                        app:layout_constraintStart_toStartOf="@+id/descIcon"
+                        app:layout_constraintTop_toTopOf="@+id/lastUpdated"
+                        app:srcCompat="@drawable/clock_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -109,11 +109,7 @@ class UserController {
         return;
       }
 
-      res
-        .status(200)
-        .send(
-          buildResp("Login successful", { login: true, user: user.rows[0] })
-        );
+      res.status(200).send(buildResp("Login successful", user.rows[0]));
     } catch (err) {
       console.error(err.message);
       return;

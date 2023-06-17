@@ -36,6 +36,17 @@ public class Employer {
         this.address = address;
     }
 
+    public Employer(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public Employer(int employer_id) {
+        this.employer_id = employer_id;
+    }
+
+
+
     public int getEmployerId() {
         return employer_id;
     }

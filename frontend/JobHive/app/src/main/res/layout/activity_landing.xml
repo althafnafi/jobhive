@@ -7,12 +7,13 @@
     tools:context=".LandingActivity">
 
     <ImageView
+
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/landing_top" />
@@ -21,6 +22,7 @@
         android:id="@+id/titleLanding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:fontFamily="@font/montserrat_extra"
         android:text="Explore\nNow"
         android:textColor="@color/black"
@@ -29,9 +31,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/descLanding"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.577" />
 
     <TextView
         android:id="@+id/descLanding"
@@ -41,60 +43,138 @@
         android:maxWidth="250dp"
         android:text="Explore and discover available dream job positions now"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/desc2Landing"
+        app:layout_constraintStart_toStartOf="@+id/titleLanding"
         app:layout_constraintTop_toBottomOf="@+id/titleLanding" />
 
     <TextView
         android:id="@+id/desc2Landing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/montserrat_bold"
         android:maxWidth="250dp"
         android:text="What are you here for:"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/userBtnLanding"
+        app:layout_constraintStart_toStartOf="@+id/descLanding"
         app:layout_constraintTop_toBottomOf="@+id/descLanding" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutEmp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutUser">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/desc2Landing">-->
 
-    <Button
-        android:id="@+id/userBtnLanding"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/employeeBtnLanding"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/med_blue"
+            android:fontFamily="@font/montserrat_bold"
+            android:minWidth="300dp"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="14dp"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/grey1"
+            app:strokeWidth="0.1dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Looking to hire"
+            android:textColor="@color/pure_white"
+            app:layout_constraintBottom_toBottomOf="@+id/employeeBtnLanding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/employeeBtnLanding"
+            app:layout_constraintTop_toTopOf="@+id/employeeBtnLanding">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/imageCheck2Landing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/employeeBtnLanding"
+            app:layout_constraintEnd_toEndOf="@+id/employeeBtnLanding"
+            app:layout_constraintTop_toTopOf="@+id/employeeBtnLanding"
+            app:srcCompat="@drawable/checkmark_icon"
+            app:tint="@color/white"
+            tools:translationZ="90dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:minWidth="300dp"
-        android:paddingHorizontal="28dp"
-        android:paddingVertical="14dp"
-        android:text="Looking to find a job"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desc2Landing" />
+        app:layout_constraintTop_toBottomOf="@+id/desc2Landing">
 
-    <Button
-        android:id="@+id/employeeBtnLanding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="28dp"
-        android:paddingVertical="14dp"
-        android:minWidth="300dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Looking for an employee"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        app:cornerRadius="10dp"
-        app:layout_constraintStart_toStartOf="@+id/userBtnLanding"
-        app:layout_constraintTop_toBottomOf="@+id/userBtnLanding" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/userBtnLanding"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:minWidth="300dp"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="14dp"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/med_blue"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:strokeColor="@color/grey1"
+            app:strokeWidth="0.1dp" />
+
+        <ImageView
+            android:id="@+id/imageCheck1Landing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/checkmark_icon"
+            app:tint="@color/white"
+            tools:translationZ="90dp" />
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Looking to find a job"
+            android:textColor="@color/pure_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 

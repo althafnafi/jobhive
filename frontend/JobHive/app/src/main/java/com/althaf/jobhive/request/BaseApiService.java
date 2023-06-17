@@ -2,12 +2,16 @@ package com.althaf.jobhive.request;
 
 
 import com.althaf.jobhive.model.Employer;
+import com.althaf.jobhive.model.Job;
+import com.althaf.jobhive.model.JobApplication;
 import com.althaf.jobhive.model.User;
 
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -51,8 +55,41 @@ public interface BaseApiService {
             );
 
     @POST("employers/login")
-    Call<User> loginEmployer
+    Call<Employer> loginEmployer
             (
                     @Body Employer employerData
             );
+
+    @GET("jobs/")
+    Call<Job> getAllJobs();
+
+    @GET("jobs/{job_id}")
+    Call<Job> getJobById(
+            @Path("job_id") int job_id
+    );
+    @GET("jobs/")
+    Call<List<Job>> getJobsByEmployerId(
+            @Query("employer_id") int employer_id
+    );
+
+    @POST("jobs/")
+    Call<Job>postJob(
+            @Body Job jobData
+    );
+
+    @PATCH("jobs/{job_id}")
+    Call<Job> updateJob(
+            @Path("job_id") int job_id,
+            @Body Job jobData
+    );
+
+    @POST("jobs/apply")
+    Call<Job> applyJob(
+            @Body JobApplication jobAppData
+    );
+
+    @DELETE("jobs/{job_id}")
+    Call<Job> deleteJob(
+            @Path("job_id") int job_id
+    );
 }

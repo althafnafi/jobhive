@@ -4,7 +4,7 @@ const { buildResp, cleanStr } = require("../utils/utils");
 class JobController {
   async getAll(req, res) {
     try {
-      const jobs = await db.query("SELECT * FROM job_listings;");
+      const jobs = await db.query(`SELECT * FROM job_listings;`);
       console.log(jobs.rows);
       res.status(200).send(buildResp("Jobs retrieved successfully", jobs.rows));
     } catch (err) {
@@ -40,7 +40,22 @@ class JobController {
     const { job_id } = req.params;
     try {
       const job = await db.query(
-        `SELECT * FROM job_listings WHERE job_id = ${job_id};`
+        `SELECT 
+        J.job_id,
+        J.job_title,
+        J.job_cat,
+        J.job_desc,
+        J.salary_avg,
+        J.job_req,
+        J.employer_id,
+        J.city,
+        J.created_at,
+        E.company_name
+        FROM job_listings AS J 
+        INNER JOIN
+        employers AS E
+        ON J.employer_id = E.employer_id
+        WHERE job_id = ${job_id};`
       );
       const msg =
         job.rows.length === 0 ? "Job not found" : "Job retrieved successfully";
@@ -109,15 +124,23 @@ class JobController {
   }
 
   async create(req, res) {
-    let { job_title, job_cat, job_desc, salary_avg, job_req, employer_id } =
-      req.body;
+    let {
+      job_title,
+      job_cat,
+      job_desc,
+      salary_avg,
+      job_req,
+      employer_id,
+      city,
+    } = req.body;
     if (
       !job_title ||
       !job_cat ||
       !job_desc ||
       !salary_avg ||
       !job_req ||
-      !employer_id
+      !employer_id ||
+      !city
     ) {
       res.status(400).send(buildResp("Missing required fields"));
       return;
@@ -129,10 +152,10 @@ class JobController {
 
     try {
       const query = `INSERT INTO job_listings 
-        (job_title, job_cat, job_desc, salary_avg, job_req, employer_id) 
+        (job_title, job_cat, job_desc, salary_avg, job_req, employer_id, city) 
         VALUES 
         ('${job_title}', '${job_cat}', '${job_desc}', 
-        ${Number(salary_avg)}, '${job_req}', '${employer_id}') 
+        ${Number(salary_avg)}, '${job_req}', ${employer_id}, '${city}') 
         RETURNING *;`;
       // console.log(query);
       const job = await db.query(query);
@@ -196,6 +219,24 @@ class JobController {
     } catch (error) {
       console.error(error.message);
       res.status(400).json(buildResp("Job application failed"));
+    }
+  }
+
+  async getJobsByEmployerId(req, res, next) {
+    const { employer_id } = req.query;
+
+    if (!employer_id) {
+      next();
+      return;
+    }
+    console.log(employer_id);
+    try {
+      const jobs = await db.query(
+        `SELECT * FROM job_listings WHERE employer_id = ${employer_id};`
+      );
+      res.status(200).json(buildResp("Jobs retrieved successfully", jobs.rows));
+    } catch (err) {
+      console.error(err.message);
     }
   }
 }

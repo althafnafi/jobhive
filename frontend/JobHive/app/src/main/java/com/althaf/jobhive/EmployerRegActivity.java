@@ -3,10 +3,12 @@ package com.althaf.jobhive;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.althaf.jobhive.model.Employer;
@@ -22,8 +24,10 @@ public class EmployerRegActivity extends AppCompatActivity {
     BaseApiService apiServ;
     EditText nameBox, emailBox, passBox, companyNameBox, addressBox;
     Button confirmRegBtn;
+    TextView bypassLogin;
 
     Context ctx;
+    String ACCOUNT_TYPE = "employer";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +44,18 @@ public class EmployerRegActivity extends AppCompatActivity {
         passBox = findViewById(R.id.passBoxEmpReg);
         addressBox = findViewById(R.id.addressBoxEmpReg);
         confirmRegBtn = findViewById(R.id.regButtonEmpReg);
+        bypassLogin = findViewById(R.id.loginBtnEmpReg);
 
         confirmRegBtn.setOnClickListener(view -> {
             // Call API to register employer
             reqRegisterEmployer();
             clearFields();
+        });
+
+        bypassLogin.setOnClickListener(view -> {
+            Intent moveToLogin = new Intent(EmployerRegActivity.this, LoginActivity.class);
+            moveToLogin.putExtra("accType", ACCOUNT_TYPE);
+            startActivity(moveToLogin);
         });
     }
 
@@ -64,6 +75,8 @@ public class EmployerRegActivity extends AppCompatActivity {
         String address = addressBox.getText().toString();
 
         Employer employer = new Employer(name, companyName, email, password, address);
+
+        Log.d("DEBUG_DATA", employer.toString());
         apiServ.registerEmployer(employer).enqueue(new Callback<Employer>() {
             @Override
             public void onResponse(Call<Employer> call, Response<Employer> response) {

@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">JobHive</string>
+    <string name="log_str">DEBUG_DATA</string>
+    <string-array name="job_cities">
+        <item>Jakarta</item>
+        <item>Bandung</item>
+        <item>Surabaya</item>
+        <item>Yogyakarta</item>
+        <item>Malang</item>
+        <item>Denpasar</item>
+        <item>Medan</item>
+        <item>Semarang</item>
+        <item>Palembang</item>
+        <item>Makassar</item>
+    </string-array>
+    <string-array name="job_categories">
+        <item>Engineering</item>
+        <item>Software</item>
+        <item>Healthcare</item>
+        <item>Finance</item>
+        <item>Education</item>
+        <item>Business</item>
+        <item>Marketing</item>
+        <item>Administrative</item>
+        <item>Human Resources</item>
+    </string-array>
 </resources>

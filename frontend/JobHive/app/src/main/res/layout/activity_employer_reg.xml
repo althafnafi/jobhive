@@ -20,6 +20,7 @@
 
 
     <ImageView
+
         android:id="@+id/waveBotEmpReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,7 +91,7 @@
 
             <EditText
                 android:id="@+id/nameBoxEmpReg"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginStart="5dp"
                 android:background="@null"
@@ -111,7 +112,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/inputPassCardEmpReg"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
@@ -191,7 +192,7 @@
 
             <EditText
                 android:id="@+id/addressBoxEmpReg"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginStart="5dp"
                 android:background="@null"
@@ -241,7 +242,7 @@
 
             <EditText
                 android:id="@+id/companyNameBoxEmpReg"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginStart="5dp"
                 android:background="@null"
@@ -293,7 +294,7 @@
 
             <EditText
                 android:id="@+id/emailBoxEmpReg"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginStart="5dp"
                 android:background="@null"
@@ -313,6 +314,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:backgroundTint="@color/med_blue"
         android:id="@+id/regButtonEmpReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -341,6 +343,7 @@
         app:layout_constraintStart_toStartOf="@+id/inputPassCardEmpReg">
 
         <TextView
+            android:textColor="@color/med_blue"
             android:id="@+id/textReminderEmpReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -353,6 +356,7 @@
     </LinearLayout>
 
     <TextView
+        android:textColor="@color/dark_blue"
         android:id="@+id/loginBtnEmpReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

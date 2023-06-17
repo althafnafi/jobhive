@@ -3,10 +3,12 @@ package com.althaf.jobhive;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.althaf.jobhive.model.User;
@@ -22,10 +24,13 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     BaseApiService apiServ;
+    TextView bypassLogin;
     EditText nameBox, emailBox, passBox;
     Button confirmRegBtn;
 
     Context ctx;
+
+    String ACCOUNT_TYPE = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +41,22 @@ public class RegisterActivity extends AppCompatActivity {
         ctx = this;
 
         // Define components
-        nameBox = findViewById(R.id.nameBoxEmpReg);
-        emailBox = findViewById(R.id.emailBoxEmpReg);
-        passBox = findViewById(R.id.passBoxEmpReg);
-        confirmRegBtn = findViewById(R.id.regButtonEmpReg);
+        nameBox = findViewById(R.id.nameBoxReg);
+        emailBox = findViewById(R.id.emailBoxReg);
+        passBox = findViewById(R.id.passBoxReg);
+        confirmRegBtn = findViewById(R.id.regButtonReg);
+        bypassLogin = findViewById(R.id.loginBtnReg);
 
         confirmRegBtn.setOnClickListener(view -> {
             // Call API to register
             reqRegister();
             clearFields();
+        });
+
+        bypassLogin.setOnClickListener(view -> {
+            Intent moveToLogin = new Intent(RegisterActivity.this, LoginActivity.class);
+            moveToLogin.putExtra("accType", ACCOUNT_TYPE);
+            startActivity(moveToLogin);
         });
     }
 
@@ -58,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailBox.getText().toString();
         String password = passBox.getText().toString();
 
+
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(ctx, "Please fill all fields", Toast.LENGTH_LONG).show();
             return;
@@ -68,6 +81,8 @@ public class RegisterActivity extends AppCompatActivity {
                 email,
                 password
         );
+
+        Log.d("DEBUG_DATA", String.valueOf(user_body));
 
         apiServ.registerUser(
                 user_body

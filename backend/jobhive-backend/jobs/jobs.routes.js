@@ -5,7 +5,7 @@ const JobsRouter = Router();
 const Jobs = new JobController();
 
 // GET ROUTES
-JobsRouter.get("/", Jobs.paginate, Jobs.getAll);
+JobsRouter.get("/", Jobs.paginate, Jobs.getJobsByEmployerId, Jobs.getAll);
 JobsRouter.get("/:job_id", Jobs.getById);
 
 // POST ROUTES
