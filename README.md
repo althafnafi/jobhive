@@ -1,6 +1,6 @@
 # JobHive - A job search app
 
-The Job Search App is a web application designed to help users search for job opportunities, create job listings, and manage the job application process. It allows two types of users: regular users and employers. Regular users can search for jobs, apply for positions, and manage their job preferences, while employers can create job listings, review applications, and find suitable candidates.
+The Job Search App is a web application designed to help users search for job opportunities, create job listings, and manage the job application process. It allows two types of users: regular users and employers. Regular users can search for jobs, apply for positions, a while employers can create job listings, and find suitable candidates.
 
 ## API Documentation
 https://documenter.getpostman.com/view/22652839/2s93sdaCoM
