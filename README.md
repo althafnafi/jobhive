@@ -74,13 +74,12 @@ The `User_Prefs` table contains user preferences for job categories.
 
 The `Job_Applications` table stores information about job applications.
 
+
 | Column     | Data Type         | Description                               |
 |------------|------------------|-------------------------------------------|
 | app_id     | serial           | Primary key                               |
 | job_id     | bigint           | Foreign key referencing Job_Listings table |
 | user_id    | bigint           | Foreign key referencing Users table        |
-| created_at | timestamp        | Timestamp of application submission
-
-       |
+| created_at | timestamp        | Timestamp of application submission        |
 | message    | text             | Additional message from the applicant      |
 | status     | app_status       | Status of the job application              |
