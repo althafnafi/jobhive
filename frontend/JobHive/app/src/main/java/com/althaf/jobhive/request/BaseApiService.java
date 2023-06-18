@@ -61,7 +61,7 @@ public interface BaseApiService {
             );
 
     @GET("jobs/")
-    Call<Job> getAllJobs();
+    Call<List<Job>> getAllJobs();
 
     @GET("jobs/{job_id}")
     Call<Job> getJobById(

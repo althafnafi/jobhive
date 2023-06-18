@@ -4,7 +4,23 @@ const { buildResp, cleanStr } = require("../utils/utils");
 class JobController {
   async getAll(req, res) {
     try {
-      const jobs = await db.query(`SELECT * FROM job_listings;`);
+      const jobs = await db.query(
+        `SELECT 
+              J.job_id,
+              J.job_title,
+              J.job_cat,
+              J.job_desc,
+              J.salary_avg,
+              J.job_req,
+              J.employer_id,
+              J.city,
+              J.created_at,
+              E.company_name
+              FROM job_listings AS J 
+              INNER JOIN
+              employers AS E
+              ON J.employer_id = E.employer_id;`
+      );
       console.log(jobs.rows);
       res.status(200).send(buildResp("Jobs retrieved successfully", jobs.rows));
     } catch (err) {

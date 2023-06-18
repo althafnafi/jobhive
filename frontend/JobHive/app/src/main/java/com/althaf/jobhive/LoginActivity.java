@@ -85,8 +85,9 @@ public class LoginActivity extends AppCompatActivity {
                         // Move to user dashboard
                         User userResp = response.body();
                         Log.d("DEBUG_DATA", userResp.toString());
-//                        Intent moveToUserDashboard = new Intent(LoginActivity.this, UserDashboardActivity.class);
-//                        startActivity(moveToUserDashboard);
+                        Intent moveToUserDashboard = new Intent(LoginActivity.this, UserDashboard.class);
+                        moveToUserDashboard.putExtra("userId", userResp.getUserId());
+                        startActivity(moveToUserDashboard);
                         Toast.makeText(ctx, "User login successful", Toast.LENGTH_SHORT).show();
                         return;
                     } else {

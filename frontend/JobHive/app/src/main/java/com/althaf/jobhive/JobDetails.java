@@ -63,7 +63,7 @@ public class JobDetails extends AppCompatActivity {
 
         reqGetJobById(currJobId);
         if (!isUser()) {
-            getListBtn.setVisibility(CardView.VISIBLE);
+//            getListBtn.setVisibility(CardView.VISIBLE);
             editJobImg.setImageResource(R.drawable.pencil_icon);
 
             editJobBtn.setOnClickListener(view -> {
@@ -76,10 +76,9 @@ public class JobDetails extends AppCompatActivity {
                 Log.d(getString(R.string.log_str), "getListBtn clicked");
             });
 
-            bottomBtnTv.setText("DELETE JOB");
-            bottomBtn.setBackgroundColor(bottomBtn.getContext().getResources().getColor(R.color.light_red));
+            bottomBtnTv.setText("SEE APPLICANTS");
         } else {
-            getListBtn.setVisibility(CardView.INVISIBLE);
+//            getListBtn.setVisibility(CardView.INVISIBLE);
             editJobImg.setImageResource(R.drawable.bookmark_empty);
             editJobBtn.setOnClickListener(view -> {
                 // Move to edit job activity
@@ -91,8 +90,12 @@ public class JobDetails extends AppCompatActivity {
         bottomBtn.setOnClickListener(view -> {
             if (isUser())
                 applyJob(currJobId, currUserId, "No message");
-            else
-                reqDeleteJobById(currJobId);
+            else {
+                Log.d(getString(R.string.log_str), "bottomBtn clicked");
+//                Intent moveToSeeApplicants = new Intent(ctx, SeeApplicants.class);
+//                moveToSeeApplicants.putExtra("jobId", currJobId);
+//                startActivity(moveToSeeApplicants);
+            }
         });
 
 
@@ -112,6 +115,8 @@ public class JobDetails extends AppCompatActivity {
             isBookmarked = true;
         }
     }
+
+
 
     //
     protected void reqToggleBookmark(int userId, int jobId) {

@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,16 +18,19 @@ import com.althaf.jobhive.R;
 import com.althaf.jobhive.model.Job;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerViewAdapter.MyViewHolder> {
+public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerViewAdapter.MyViewHolder> implements Filterable {
     Context context;
     ArrayList<Job> jobs;
+    ArrayList<Job> jobsListFull;
     private final JobsRecyclerViewInterface jobsRecyclerViewInterface;
 
 
     public  JobsRecyclerViewAdapter(Context context, ArrayList<Job> jobs, JobsRecyclerViewInterface viewInterface) {
         this.context = context;
         this.jobs = jobs;
+        this.jobsListFull = new ArrayList<>(jobs);
         this.jobsRecyclerViewInterface = viewInterface;
     }
 
@@ -58,6 +63,39 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
     public static String truncateString(String input, int maxSize) {
         return input.length() > maxSize ? (input.substring(0, maxSize) + "...") : input;
     }
+
+    @Override
+    public Filter getFilter() {
+        return jobsFilter;
+    }
+
+    private Filter jobsFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Job> filteredList  = new ArrayList<>();
+
+            if (charSequence == null || charSequence.length() == 0) {
+                filteredList.addAll(jobsListFull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for (Job job : jobsListFull) {
+                    if (job.getJobTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(job);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                jobs.clear();
+                jobs.addAll((List) filterResults.values);
+                notifyDataSetChanged();
+        }
+    };
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
