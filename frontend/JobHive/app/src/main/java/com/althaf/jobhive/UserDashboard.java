@@ -1,6 +1,7 @@
 package com.althaf.jobhive;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +34,7 @@ public class UserDashboard extends AppCompatActivity implements JobsRecyclerView
     private final String TAG = "DEBUG_DATA";
     BaseApiService apiServ;
     RecyclerView jobsRecyclerView;
+    CardView profileIcon;
     SearchView searchView;
     private int currUserId;
     private User currUser;
@@ -56,10 +58,18 @@ public class UserDashboard extends AppCompatActivity implements JobsRecyclerView
 
         jobsRecyclerView = findViewById(R.id.jobsRecyclerViewUser);
         searchView = findViewById(R.id.searchJobsUser);
+        profileIcon = findViewById(R.id.profileIconUserDash);
 
 //        int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
 //        TextView searchText = searchView.findViewById(searchTextId);
 //        searchText.setTypeface(tf);
+
+        profileIcon.setOnClickListener(view -> {
+            Log.d(TAG, "profile icon clicked");
+            Intent moveToUserDetails = new Intent(UserDashboard.this, UserDetails.class);
+            moveToUserDetails.putExtra("userId", currUser.getUserId());
+            startActivity(moveToUserDetails);
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

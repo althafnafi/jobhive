@@ -128,17 +128,16 @@ class ApplicationController {
     }
     try {
       const applications = await db.query(
-        `SELECT 
-        A.app_id as application_id,
-        J.employer_id,
-        U.full_name as full_name,
-        U.email as email,
-        U.address as user_address,
+        `SELECT
+        A.message,
+        A.status,
+        J.job_id,
         J.job_title,
         J.job_cat,
         J.job_desc,
         J.salary_avg,
         J.job_req
+        J.employer_id,
         FROM 
         job_applications AS A
         INNER JOIN
@@ -172,6 +171,50 @@ class ApplicationController {
         `DELETE FROM job_applications WHERE app_id = ${application_id};`
       );
       res.status(200).send(buildResp("Application deleted successfully"));
+    } catch (err) {
+      console.error(err.message);
+      return;
+    }
+  }
+
+  async getApplicationsByEmployerId(req, res, next) {
+    const { employer_id } = req.query;
+    if (!employer_id) {
+      next();
+      return;
+    }
+    try {
+      const applications = await db.query(
+        `SELECT 
+        A.app_id,
+        J.job_id,
+        A.user_id,
+        U.full_name as user_full_name,
+        U.email as user_email,
+        U.address as user_address,
+        A.created_at as applied_at,
+        A.message,
+        A.status,
+        FROM 
+        job_applications AS A
+        INNER JOIN
+        job_listings AS J ON J.job_id = A.job_id
+        INNER JOIN
+        users as U ON U.user_id = A.user_id
+        WHERE J.employer_id = ${employer_id};`
+      );
+      const msg =
+        applications.rows.length === 0
+          ? "No applications found"
+          : "Applications retrieved successfully";
+      res
+        .status(200)
+        .send(
+          buildResp(
+            msg,
+            applications.rows.length == 0 ? undefined : applications.rows
+          )
+        );
     } catch (err) {
       console.error(err.message);
       return;

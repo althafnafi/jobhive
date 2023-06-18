@@ -2,18 +2,23 @@ package com.althaf.jobhive;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.althaf.jobhive.model.Job;
-import com.althaf.jobhive.model.JobApplication;
+import com.althaf.jobhive.model.UserApplication;
 import com.althaf.jobhive.request.ApiUtils;
 import com.althaf.jobhive.request.BaseApiService;
 
@@ -32,9 +37,14 @@ public class JobDetails extends AppCompatActivity {
     private int currJobId = -1;
     TextView jobTitleTv, companyNameTv, jobDescTv, jobReqTv, bottomBtnTv,
             cityLocationTv, jobCatTv, avgSalaryTv, lastUpdatedTv;
+    // For user
+    EditText messageBox;
+    TextView messageBoxTitle;
+
     Button bottomBtn;
     Boolean isBookmarked = false;
-
+//    Dialog popupApply;
+//    ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +67,8 @@ public class JobDetails extends AppCompatActivity {
         bottomBtn = findViewById(R.id.bottomBtn);
         editJobImg = findViewById(R.id.imageEditJobBtn);
         getListBtn = findViewById(R.id.getListCard);
+        messageBoxTitle = findViewById(R.id.msgTitleDetails);
+        messageBox = findViewById(R.id.textMessage);
 
         currJobId = getIntent().getIntExtra("jobId", -1);
         currUserId = getIntent().getIntExtra("userId", -1);
@@ -64,6 +76,9 @@ public class JobDetails extends AppCompatActivity {
         reqGetJobById(currJobId);
         if (!isUser()) {
 //            getListBtn.setVisibility(CardView.VISIBLE);
+            messageBox.setVisibility(View.INVISIBLE);
+            messageBoxTitle.setVisibility(View.INVISIBLE);
+
             editJobImg.setImageResource(R.drawable.pencil_icon);
 
             editJobBtn.setOnClickListener(view -> {
@@ -79,6 +94,8 @@ public class JobDetails extends AppCompatActivity {
             bottomBtnTv.setText("SEE APPLICANTS");
         } else {
 //            getListBtn.setVisibility(CardView.INVISIBLE);
+            messageBox.setVisibility(View.VISIBLE);
+            messageBoxTitle.setVisibility(View.VISIBLE);
             editJobImg.setImageResource(R.drawable.bookmark_empty);
             editJobBtn.setOnClickListener(view -> {
                 // Move to edit job activity
@@ -89,7 +106,7 @@ public class JobDetails extends AppCompatActivity {
 
         bottomBtn.setOnClickListener(view -> {
             if (isUser())
-                applyJob(currJobId, currUserId, "No message");
+                applyJob(currJobId, currUserId, messageBox.getText().toString());
             else {
                 Log.d(getString(R.string.log_str), "bottomBtn clicked");
 //                Intent moveToSeeApplicants = new Intent(ctx, SeeApplicants.class);
@@ -100,6 +117,42 @@ public class JobDetails extends AppCompatActivity {
 
 
     }
+
+    public void showPopupApply() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_applied, null);
+
+
+        int width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+        int height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        final PopupWindow popup = new PopupWindow(popupView, width, height, focusable);
+        popup.showAtLocation(new ConstraintLayout(this), Gravity.CENTER, 0, 0);
+
+//        return;
+//        ImageView closeBtn;
+//        popupApply.setContentView(R.layout.popup_applied);
+//        closeBtn = findViewById(R.id.closeBtnPopup);
+//        closeBtn.setOnClickListener(view -> {
+//            popupApply.dismiss();
+//        });
+//        popupApply.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLU));
+//        popupApply.show();
+    }
+
+//    public static void applyDim(@NonNull ViewGroup parent, float dimAmount){
+//        Drawable dim = new ColorDrawable(Color.BLACK);
+//        dim.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+//        dim.setAlpha((int) (255 * dimAmount));
+//
+//        ViewGroupOverlay overlay = parent.getOverlay();
+//        overlay.add(dim);
+//    }
+//
+//    public static void clearDim(@NonNull ViewGroup parent) {
+//        ViewGroupOverlay overlay = parent.getOverlay();
+//        overlay.clear();
+//    }
 
     protected boolean isUser() {
         return currUserId != -1;
@@ -125,12 +178,14 @@ public class JobDetails extends AppCompatActivity {
     }
 
     protected void applyJob(int jobId, int userId, String message) {
-        if (jobId == -1 || userId == -1) {
+        if (jobId == -1 || userId == -1 || message == null) {
             Log.d(getString(R.string.log_str), "error: " + "jobId or userId is -1");
             Toast.makeText(ctx, "You can't apply for this job", Toast.LENGTH_LONG).show();
             return;
         }
-        JobApplication newJobApp = new JobApplication(jobId, userId, message);
+        if (message == "") message = "No message given";
+
+        UserApplication newJobApp = new UserApplication(jobId, userId, message);
 
         apiServ.applyJob(newJobApp).enqueue(new Callback<Job>() {
             @Override
@@ -142,6 +197,10 @@ public class JobDetails extends AppCompatActivity {
                 Job respJob = response.body();
                 Log.d(getString(R.string.log_str), "respJob: " + respJob);
                 currJob = respJob;
+                showPopupApply();
+                messageBox.setText("");
+                messageBox.clearFocus(); ;
+//                applyDim(root, 0.5f);
             }
 
             @Override
@@ -214,6 +273,6 @@ public class JobDetails extends AppCompatActivity {
         cityLocationTv.setText(currJob.getCity());
         jobCatTv.setText(currJob.getJobCat());
         avgSalaryTv.setText("$" + currJob.getSalaryAvg() +"/yr");
-        lastUpdatedTv.setText("Created " + currJob.getCreatedAtDiff() + " days ago");
+        lastUpdatedTv.setText("Posted " + currJob.getCreatedAtDiff() + " day(s) ago");
     }
 }

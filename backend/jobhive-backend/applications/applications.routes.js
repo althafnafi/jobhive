@@ -8,6 +8,7 @@ const Applications = new ApplicationController();
 ApplicationsRouter.get(
   "/",
   Applications.getByJobId,
+  Applications.getApplicationsByEmployerId,
   Applications.getByUserId,
   Applications.getAll
 );

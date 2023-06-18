@@ -51,7 +51,7 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
         holder.jobDesc.setText(truncateString(this.jobs.get(position).getJobDesc(), 40));
         holder.avgSalary.setText("$" + this.jobs.get(position).getSalaryAvg() + "/yr");
         holder.jobLocation.setText(this.jobs.get(position).getCity());
-        holder.lastUpdated.setText("Created " + this.jobs.get(position).getCreatedAtDiff() +" days ago");
+        holder.lastUpdated.setText("Posted " + this.jobs.get(position).getCreatedAtDiff() +" day(s) ago");
 
     }
 

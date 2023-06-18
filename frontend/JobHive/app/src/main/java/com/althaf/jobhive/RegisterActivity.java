@@ -138,30 +138,4 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
-    protected void reqGetUserById(int user_id) {
-        apiServ.getUserById(user_id).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() == null) {
-                        Log.d("DEBUG_DATA", "user is null");
-                        return;
-                    }
-                    Log.d("DEBUG_DATA", "success: getUserById");
-
-                    User user = response.body();
-                    Log.d("DEBUG_DATA", user.toString());
-
-                } else {
-                    Log.d("DEBUG_DATA", "fail: getUserById");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d("DEBUG_DATA", "fail: getUserById -> " + t.toString());
-            }
-        });
-    }
 }

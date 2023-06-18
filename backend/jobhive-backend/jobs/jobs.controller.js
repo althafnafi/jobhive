@@ -200,7 +200,7 @@ class JobController {
   }
 
   async apply(req, res) {
-    const { job_id, user_id } = req.body;
+    const { job_id, user_id, message } = req.body;
 
     try {
       // Check if the job listing exists
@@ -211,6 +211,7 @@ class JobController {
         res.status(404).json(buildResp("Job listing not found"));
         return;
       }
+
       // Check if the user exists
       const userQuery = `SELECT * FROM users WHERE user_id = ${user_id}`;
       const userRes = await db.query(userQuery);
@@ -220,11 +221,27 @@ class JobController {
         return;
       }
 
+      // try {
+      //   // Check if the user has already applied for this job
+      //   const applicationQuery = `SELECT * FROM job_applications WHERE job_id = ${job_id} AND user_id = ${user_id}`;
+      //   const applicationRes = await db.query(applicationQuery);
+      //   if (applicationRes.rows.length > 0) {
+      //     res
+      //       .status(400)
+      //       .json(buildResp("User has already applied for this job"));
+      //     return;
+      //   }
+      // } catch (err) {
+      //   console.error(err.message);
+      //   res.status(400).json(buildResp("Job application failed"));
+      //   return;
+      // }
+
       // Insert the job application
       const insertQuery = `INSERT INTO job_applications 
-                            (job_id, user_id) 
+                            (job_id, user_id, message) 
                             VALUES 
-                            (${job_id}, ${user_id})
+                            (${job_id}, ${user_id}, '${message}')
                             RETURNING *;`;
       const application = await db.query(insertQuery);
       res

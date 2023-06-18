@@ -3,7 +3,7 @@ package com.althaf.jobhive.request;
 
 import com.althaf.jobhive.model.Employer;
 import com.althaf.jobhive.model.Job;
-import com.althaf.jobhive.model.JobApplication;
+import com.althaf.jobhive.model.UserApplication;
 import com.althaf.jobhive.model.User;
 
 import java.util.List;
@@ -85,11 +85,16 @@ public interface BaseApiService {
 
     @POST("jobs/apply")
     Call<Job> applyJob(
-            @Body JobApplication jobAppData
+            @Body UserApplication jobAppData
     );
 
     @DELETE("jobs/{job_id}")
     Call<Job> deleteJob(
             @Path("job_id") int job_id
+    );
+
+    @GET("applications/")
+    Call<Job> getJobsByApplications(
+            @Query("user_id") int user_id
     );
 }

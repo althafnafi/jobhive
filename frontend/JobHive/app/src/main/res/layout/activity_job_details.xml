@@ -158,7 +158,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_med"
-        android:text="Created 71 days ago"
+        android:text="Posted 71 day(s) ago"
         android:textColor="@color/grey1"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintStart_toStartOf="@+id/cityLocationDetails"
@@ -193,7 +193,6 @@
         android:id="@+id/jobDescDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat_med"
         android:maxWidth="320dp"
         android:text="A marketing specialist that gives advice on marketing teams on how to approach certain situations and problems"
@@ -207,7 +206,7 @@
         android:id="@+id/jobReqTitleDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="Job Requirements"
         android:textColor="@color/black"
@@ -219,7 +218,6 @@
         android:id="@+id/jobReqDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:fontFamily="@font/montserrat_med"
         android:maxWidth="320dp"
         android:text="Has a background in marketing, and 2 years of professional experience"
@@ -229,17 +227,44 @@
         app:layout_constraintStart_toStartOf="@+id/jobReqTitleDetails"
         app:layout_constraintTop_toBottomOf="@+id/jobReqTitleDetails" />
 
+    <TextView
+        android:id="@+id/msgTitleDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Enter message to send in the application:"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@+id/jobReqDetails"
+        app:layout_constraintTop_toBottomOf="@+id/jobReqDetails" />
+
+    <EditText
+        android:id="@+id/textMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ems="22"
+        android:gravity="start|top"
+        android:hint="Message to send"
+        android:inputType="textMultiLine"
+        android:maxLength="300"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@+id/msgTitleDetails"
+        app:layout_constraintTop_toBottomOf="@+id/msgTitleDetails" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:elevation="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editJobButtonDetails"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jobReqDetails"
+        app:layout_constraintTop_toBottomOf="@+id/textMessage"
         app:layout_constraintVertical_bias="0.9">
 
         <TextView
@@ -319,6 +344,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-50dp"
         android:scaleType="fitStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/top_reg_wave" />
