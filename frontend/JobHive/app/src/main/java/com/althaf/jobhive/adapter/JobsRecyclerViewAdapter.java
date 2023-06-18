@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.althaf.jobhive.R;
@@ -46,6 +47,7 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
         holder.avgSalary.setText("$" + this.jobs.get(position).getSalaryAvg() + "/yr");
         holder.jobLocation.setText(this.jobs.get(position).getCity());
         holder.lastUpdated.setText("Created " + this.jobs.get(position).getCreatedAtDiff() +" days ago");
+
     }
 
     @Override
