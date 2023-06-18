@@ -75,8 +75,8 @@ class ApplicationController {
   }
 
   async getByJobId(req, res, next) {
-    const { job_id } = req.query;
-    if (!job_id) {
+    const { job_id, user_id } = req.query;
+    if (!job_id || user_id != null) {
       next();
       return;
     }
@@ -120,8 +120,8 @@ class ApplicationController {
     }
   }
 
-  async getByUserId(req, res, next) {
-    const { user_id } = req.query;
+  async getByUserAndJobId(req, res, next) {
+    const { user_id, job_id } = req.query;
     if (!user_id) {
       next();
       return;
@@ -136,15 +136,16 @@ class ApplicationController {
         J.job_cat,
         J.job_desc,
         J.salary_avg,
-        J.job_req
-        J.employer_id,
+        J.job_req,
+        J.employer_id
         FROM 
         job_applications AS A
         INNER JOIN
         job_listings AS J ON J.job_id = A.job_id
         INNER JOIN
         users as U ON U.user_id = A.user_id
-        WHERE A.user_id = ${user_id};`
+        WHERE A.user_id = ${user_id}
+        AND J.job_id = ${job_id};`
       );
       const msg =
         applications.rows.length === 0
@@ -155,7 +156,7 @@ class ApplicationController {
         .send(
           buildResp(
             msg,
-            applications.rows.length == 0 ? undefined : applications.rows
+            applications.rows.length == 0 ? undefined : applications.rows[0]
           )
         );
     } catch (err) {

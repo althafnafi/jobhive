@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(view -> {
             // Call API to login
             reqLogin();
-            clearFields();
+//            clearFields();
         });
         changeAccType.setOnClickListener(view -> {
             // Move to landing activity

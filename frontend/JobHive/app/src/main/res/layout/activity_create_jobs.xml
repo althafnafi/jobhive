@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateJobs">
+
+
+    <EditText
+        android:id="@+id/jobTitleJobs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="14sp"
+        android:ems="15"
+        android:fontFamily="@font/montserrat_med"
+        android:hint="Job Title"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descJobs" />
+
+    <EditText
+        android:id="@+id/jobDescJobs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:ems="15"
+        android:fontFamily="@font/montserrat_med"
+        android:gravity="start|top"
+        android:hint="Job Description"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/jobTitleJobs"
+        app:layout_constraintTop_toBottomOf="@+id/jobTitleJobs" />
+
+    <EditText
+        android:id="@+id/jobReqJobs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:ems="15"
+        android:fontFamily="@font/montserrat_med"
+        android:gravity="start|top"
+        android:hint="Job Requirements"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/jobDescJobs"
+        app:layout_constraintTop_toBottomOf="@+id/jobDescJobs" />
+
+    <EditText
+        android:id="@+id/avgSalaryJobs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:ems="15"
+        android:fontFamily="@font/montserrat_med"
+        android:hint="Average Salary (/year)"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/jobTitleJobs"
+        app:layout_constraintStart_toStartOf="@+id/jobReqJobs"
+        app:layout_constraintTop_toBottomOf="@+id/jobReqJobs" />
+
+    <Spinner
+        android:id="@+id/citySpinnerJobs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/jobTitleJobs"
+        app:layout_constraintStart_toStartOf="@+id/avgSalaryJobs"
+        app:layout_constraintTop_toBottomOf="@+id/avgSalaryJobs" />
+
+    <Spinner
+        android:id="@+id/jobCatSpinnerJobs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/jobTitleJobs"
+        app:layout_constraintStart_toStartOf="@+id/citySpinnerJobs"
+        app:layout_constraintTop_toBottomOf="@+id/citySpinnerJobs" />
+
+    <ImageView
+        android:id="@+id/waveTopJobs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitStart"
+        android:translationZ="-50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/top_reg_wave" />
+
+
+    <ImageView
+
+        android:id="@+id/waveBotJobs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:scaleType="fitEnd"
+        android:translationZ="-30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/waveTopJobs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/wave_bottom" />
+
+    <TextView
+        android:id="@+id/titleJobs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:fontFamily="@font/montserrat_extra"
+        android:text="Create New\nJob Listing"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.204" />
+
+    <TextView
+        android:id="@+id/descJobs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/montserrat_med"
+        android:text="Enter job details below"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/titleJobs"
+        app:layout_constraintTop_toBottomOf="@+id/titleJobs" />
+
+
+    <Button
+        android:id="@+id/postJobBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="50dp"
+        android:backgroundTint="@color/med_blue"
+        android:paddingHorizontal="28dp"
+        android:paddingVertical="10dp"
+        android:text="Post Job"
+        android:textAllCaps="false"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jobCatSpinnerJobs" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

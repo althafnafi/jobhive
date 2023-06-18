@@ -199,6 +199,44 @@ class JobController {
     }
   }
 
+  async getJobsByAppliedUser(req, res, next) {
+    const { applied, user_id } = req.query;
+    console.log(req.query);
+    if (applied != "true" || user_id == null) {
+      console.log("HELLO!");
+      next();
+      return;
+    }
+    try {
+      const jobs = await db.query(
+        `SELECT 
+            J.job_id,
+            J.job_title,
+            J.job_cat,
+            J.job_desc,
+            J.salary_avg,
+            J.job_req,
+            J.employer_id,
+            J.city,
+            J.created_at,
+            E.company_name
+            FROM job_listings AS J 
+            INNER JOIN
+            employers AS E
+            ON J.employer_id = E.employer_id
+            INNER JOIN
+            job_applications AS A
+            ON J.job_id = A.job_id
+            WHERE A.user_id = ${user_id};`
+      );
+      res.status(200).send(buildResp("Jobs retrieved successfully", jobs.rows));
+    } catch (err) {
+      res.status(400).send(buildResp("Job retrieval failed"));
+      console.error(err.message);
+      return;
+    }
+  }
+
   async apply(req, res) {
     const { job_id, user_id, message } = req.body;
 
@@ -221,21 +259,21 @@ class JobController {
         return;
       }
 
-      // try {
-      //   // Check if the user has already applied for this job
-      //   const applicationQuery = `SELECT * FROM job_applications WHERE job_id = ${job_id} AND user_id = ${user_id}`;
-      //   const applicationRes = await db.query(applicationQuery);
-      //   if (applicationRes.rows.length > 0) {
-      //     res
-      //       .status(400)
-      //       .json(buildResp("User has already applied for this job"));
-      //     return;
-      //   }
-      // } catch (err) {
-      //   console.error(err.message);
-      //   res.status(400).json(buildResp("Job application failed"));
-      //   return;
-      // }
+      try {
+        // Check if the user has already applied for this job
+        const applicationQuery = `SELECT * FROM job_applications WHERE job_id = ${job_id} AND user_id = ${user_id}`;
+        const applicationRes = await db.query(applicationQuery);
+        if (applicationRes.rows.length > 0) {
+          res
+            .status(400)
+            .json(buildResp("User has already applied for this job"));
+          return;
+        }
+      } catch (err) {
+        console.error(err.message);
+        res.status(400).json(buildResp("Job application failed"));
+        return;
+      }
 
       // Insert the job application
       const insertQuery = `INSERT INTO job_applications 

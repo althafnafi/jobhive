@@ -1,6 +1,7 @@
 package com.althaf.jobhive.request;
 
 
+import com.althaf.jobhive.model.AppStatus;
 import com.althaf.jobhive.model.Employer;
 import com.althaf.jobhive.model.Job;
 import com.althaf.jobhive.model.UserApplication;
@@ -72,6 +73,12 @@ public interface BaseApiService {
             @Query("employer_id") int employer_id
     );
 
+    @GET("jobs/")
+    Call<List<Job>> getAppliedJobsByUserId(
+            @Query("user_id") int user_id,
+            @Query("applied") String applied
+    );
+
     @POST("jobs/")
     Call<Job>postJob(
             @Body Job jobData
@@ -94,7 +101,8 @@ public interface BaseApiService {
     );
 
     @GET("applications/")
-    Call<Job> getJobsByApplications(
-            @Query("user_id") int user_id
+    Call<UserApplication> getAppByUserId(
+            @Query("user_id") int user_id,
+            @Query("job_id") int job_id
     );
 }

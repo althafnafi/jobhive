@@ -49,7 +49,7 @@ public class EmployerRegActivity extends AppCompatActivity {
         confirmRegBtn.setOnClickListener(view -> {
             // Call API to register employer
             reqRegisterEmployer();
-            clearFields();
+//            clearFields();
         });
 
         bypassLogin.setOnClickListener(view -> {

@@ -17,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.althaf.jobhive.model.AppStatus;
 import com.althaf.jobhive.model.Job;
 import com.althaf.jobhive.model.UserApplication;
 import com.althaf.jobhive.request.ApiUtils;
@@ -31,16 +32,19 @@ public class JobDetails extends AppCompatActivity {
     BaseApiService apiServ;
     Context ctx;
     ImageView editJobImg;
-    CardView editJobBtn, getListBtn;
+    CardView editJobBtn, getListBtn, statusCard;
     Job currJob;
     private int currUserId = -1;
     private int currJobId = -1;
     TextView jobTitleTv, companyNameTv, jobDescTv, jobReqTv, bottomBtnTv,
-            cityLocationTv, jobCatTv, avgSalaryTv, lastUpdatedTv;
+            cityLocationTv, jobCatTv, avgSalaryTv, lastUpdatedTv, statusTv;
     // For user
     EditText messageBox;
     TextView messageBoxTitle;
 
+    UserApplication currUserApplication;
+
+    AppStatus currAppStatus;
     Button bottomBtn;
     Boolean isBookmarked = false;
 //    Dialog popupApply;
@@ -69,6 +73,8 @@ public class JobDetails extends AppCompatActivity {
         getListBtn = findViewById(R.id.getListCard);
         messageBoxTitle = findViewById(R.id.msgTitleDetails);
         messageBox = findViewById(R.id.textMessage);
+        statusTv = findViewById(R.id.statusTextDetaiils);
+        statusCard = findViewById(R.id.statusCard);
 
         currJobId = getIntent().getIntExtra("jobId", -1);
         currUserId = getIntent().getIntExtra("userId", -1);
@@ -102,11 +108,14 @@ public class JobDetails extends AppCompatActivity {
                 Log.d(getString(R.string.log_str), "bookmark Clicked!");
                 reqToggleBookmark(currUserId, currJobId);
             });
+
+            reqGetUserApp(currUserId, currJobId);
         }
 
         bottomBtn.setOnClickListener(view -> {
-            if (isUser())
+            if (isUser()) {
                 applyJob(currJobId, currUserId, messageBox.getText().toString());
+            }
             else {
                 Log.d(getString(R.string.log_str), "bottomBtn clicked");
 //                Intent moveToSeeApplicants = new Intent(ctx, SeeApplicants.class);
@@ -153,6 +162,28 @@ public class JobDetails extends AppCompatActivity {
 //        ViewGroupOverlay overlay = parent.getOverlay();
 //        overlay.clear();
 //    }
+
+    protected void reqGetUserApp(int currUserId, int currJobId) {
+        apiServ.getAppByUserId(currUserId, currJobId).enqueue(new Callback<UserApplication>() {
+            @Override
+            public void onResponse(Call<UserApplication> call, Response<UserApplication> response) {
+                if (!response.isSuccessful()) {
+                    Log.d(getString(R.string.log_str), "error: " + response.code());
+                    return;
+                }
+                currUserApplication = response.body();
+                Log.d(getString(R.string.log_str), "currUserApplication: " + currUserApplication.toString());
+                // update status bar
+                statusTv.setText(currUserApplication.getStatus());
+                statusCard.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<UserApplication> call, Throwable t) {
+                Log.d(getString(R.string.log_str), "error: " + t.getMessage());
+            }
+        });
+    }
 
     protected boolean isUser() {
         return currUserId != -1;
@@ -201,6 +232,7 @@ public class JobDetails extends AppCompatActivity {
                 messageBox.setText("");
                 messageBox.clearFocus(); ;
 //                applyDim(root, 0.5f);
+                reqGetUserApp(currUserId, currJobId);
             }
 
             @Override
@@ -275,4 +307,6 @@ public class JobDetails extends AppCompatActivity {
         avgSalaryTv.setText("$" + currJob.getSalaryAvg() +"/yr");
         lastUpdatedTv.setText("Posted " + currJob.getCreatedAtDiff() + " day(s) ago");
     }
+
+
 }

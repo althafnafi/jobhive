@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class EmployerDashboard extends AppCompatActivity implements JobsRecycler
     private String TAG = "DEBUG_DATA";
     BaseApiService apiServ;
     RecyclerView jobsRecyclerView;
+    ImageView addIcon;
     CardView backBtn;
     TextView employerName, employerEmail, employerAddress, welcomeText;
     Context ctx;
@@ -45,12 +47,19 @@ public class EmployerDashboard extends AppCompatActivity implements JobsRecycler
         jobsRecyclerView = findViewById(R.id.jobsRecyclerView);
         welcomeText = findViewById(R.id.welcomeText);
         backBtn = findViewById(R.id.backBtnCard);
+        addIcon = findViewById(R.id.addIcon);
 
         apiServ = ApiUtils.getApiService();
         ctx = this;
 
         backBtn.setOnClickListener(view -> {
             finish();
+        });
+
+        addIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(ctx, CreateJobs.class);
+            intent.putExtra("employerId", currEmployer.getEmployerId());
+            startActivity(intent);
         });
 
 //        currEmployer = new Employer(getIntent().getIntExtra("employerId", -1));

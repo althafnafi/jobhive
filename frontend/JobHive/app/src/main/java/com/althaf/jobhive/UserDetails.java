@@ -2,32 +2,38 @@ package com.althaf.jobhive;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.althaf.jobhive.adapter.JobsRecyclerViewAdapter;
+import com.althaf.jobhive.adapter.JobsRecyclerViewInterface;
 import com.althaf.jobhive.model.Job;
 import com.althaf.jobhive.model.User;
 import com.althaf.jobhive.request.ApiUtils;
 import com.althaf.jobhive.request.BaseApiService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserDetails extends AppCompatActivity {
+public class UserDetails extends AppCompatActivity implements JobsRecyclerViewInterface {
     private String TAG = "DEBUG_DATA";
     BaseApiService apiServ;
     RecyclerView jobsRecyclerView;
+    JobsRecyclerViewAdapter adapter;
     CardView closeBtn, jobsAppliedForBtn, jobsBookmarkedBtn;
     Context ctx;
     User currUser;
-    ArrayList<Job> jobsAppliedFor = new ArrayList<Job>();
+    ArrayList<Job> jobsAppliedFor = new ArrayList<>();
     ArrayList<Job> jobsBookmarked = new ArrayList<>();
     TextView fullNameTv, emailTv, addressTv, numJobsAppliedTv;
 
@@ -47,14 +53,15 @@ public class UserDetails extends AppCompatActivity {
         emailTv = findViewById(R.id.emailTextUser);
         addressTv = findViewById(R.id.addressTextUser);
         numJobsAppliedTv = findViewById(R.id.numJobsAppliedUser);
+        jobsRecyclerView = findViewById(R.id.jobsRecyclerViewUser);
 
         closeBtn.setOnClickListener(view -> {
             Log.d(TAG, "close btn clicked");
+            finish();
         });
 
         jobsAppliedForBtn.setOnClickListener(view -> {
             Log.d(TAG, "jobsApplied clicked");
-
         });
 
         jobsBookmarkedBtn.setOnClickListener(view -> {
@@ -67,13 +74,12 @@ public class UserDetails extends AppCompatActivity {
         fullNameTv.setText(currUser.getFullName());
         emailTv.setText(currUser.getEmail());
         addressTv.setText(currUser.getAddress());
-        numJobsAppliedTv.setText(String.valueOf(jobsAppliedFor.size()));
     }
 
     private void getData() {
         int currUserId = getIntent().getIntExtra("userId", -1);
         reqGetUserById(currUserId);
-        reqGetJobsApplicationsByUserId(currUserId);
+        reqGetAppliedJobsByUserId(currUserId);
         return;
     }
 
@@ -104,16 +110,30 @@ public class UserDetails extends AppCompatActivity {
         });
     }
 
-    protected void reqGetJobsApplicationsByUserId(int userId) {
-        apiServ.getJobsByApplications(userId).enqueue(new Callback<Job>() {
-            @Override
-            public void onResponse(Call<Job> call, Response<Job> response) {
+    private void setupRecyclerView() {
+        adapter = new JobsRecyclerViewAdapter(ctx, jobsAppliedFor, this);
+        jobsRecyclerView.setAdapter(adapter);
+        jobsRecyclerView.setLayoutManager(new LinearLayoutManager(ctx));
+    }
 
+    protected void reqGetAppliedJobsByUserId(int userId) {
+        apiServ.getAppliedJobsByUserId(userId, "true").enqueue(new Callback<List<Job>>() {
+            @Override
+            public void onResponse(Call<List<Job>> call, Response<List<Job>> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    Log.d("DEBUG_DATA", "fail: getAppliedJobsByUserId -> " + response.code());
+                    return;
+                }
+
+                jobsAppliedFor = (ArrayList<Job>) response.body();
+                numJobsAppliedTv.setText(String.valueOf(jobsAppliedFor.size()));
+                Log.d(TAG, "" + response.body());
+                setupRecyclerView();
             }
 
             @Override
-            public void onFailure(Call<Job> call, Throwable t) {
-
+            public void onFailure(Call<List<Job>> call, Throwable t) {
+                Log.d("DEBUG_DATA", "fail: getAppliedJobsByUserId -> " + t.toString());
             }
         });
 
@@ -121,5 +141,14 @@ public class UserDetails extends AppCompatActivity {
 
     protected void reqGetJobsByUserBookmarks(int userId) {
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent moveToDetails = new Intent(ctx, JobDetails.class);
+        moveToDetails.putExtra("jobId", jobsAppliedFor.get(position).getJobId());
+        moveToDetails.putExtra("employerId", jobsAppliedFor.get(position).getEmployerId());
+        moveToDetails.putExtra("userId", currUser.getUserId());
+        startActivity(moveToDetails);
     }
 }

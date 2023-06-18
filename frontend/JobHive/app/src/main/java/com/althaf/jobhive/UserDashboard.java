@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -40,6 +41,8 @@ public class UserDashboard extends AppCompatActivity implements JobsRecyclerView
     private User currUser;
     Context ctx;
 
+    ImageView backBtn;
+
     ArrayList<Job> listedJobs = new ArrayList<>();
 
     JobsRecyclerViewAdapter adapter;
@@ -59,10 +62,15 @@ public class UserDashboard extends AppCompatActivity implements JobsRecyclerView
         jobsRecyclerView = findViewById(R.id.jobsRecyclerViewUser);
         searchView = findViewById(R.id.searchJobsUser);
         profileIcon = findViewById(R.id.profileIconUserDash);
+        backBtn = findViewById(R.id.imageView8);
 
 //        int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
 //        TextView searchText = searchView.findViewById(searchTextId);
 //        searchText.setTypeface(tf);
+
+        backBtn.setOnClickListener(view -> {
+            finish();
+        });
 
         profileIcon.setOnClickListener(view -> {
             Log.d(TAG, "profile icon clicked");

@@ -73,7 +73,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/userIcon"
+                android:id="@+id/addIcon"
                 android:layout_width="48dp"
 
                 android:layout_height="48dp"
@@ -81,7 +81,7 @@
                 android:layout_marginEnd="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/user_svgrepo_com"
+                app:srcCompat="@drawable/add_icon"
                 app:tint="@color/pure_white" />
 
             <TextView

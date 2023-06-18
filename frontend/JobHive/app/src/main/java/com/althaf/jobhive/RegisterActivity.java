@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         confirmRegBtn.setOnClickListener(view -> {
             // Call API to register
             reqRegister();
-            clearFields();
+//            clearFields();
         });
 
         bypassLogin.setOnClickListener(view -> {

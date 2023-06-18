@@ -9,7 +9,7 @@ ApplicationsRouter.get(
   "/",
   Applications.getByJobId,
   Applications.getApplicationsByEmployerId,
-  Applications.getByUserId,
+  Applications.getByUserAndJobId,
   Applications.getAll
 );
 ApplicationsRouter.get("/:application_id", Applications.getById);

@@ -23,9 +23,9 @@ public class UserApplication {
     @SerializedName("message")
     private String message;
     @SerializedName("status")
-    private AppStatus status;
+    private String status;
 
-    public UserApplication(int app_id, int job_id, int user_id, Timestamp applied_at, String message, AppStatus status) {
+    public UserApplication(int app_id, int job_id, int user_id, Timestamp applied_at, String message, String status) {
         this.app_id = app_id;
         this.job_id = job_id;
         this.user_id = user_id;
@@ -45,6 +45,17 @@ public class UserApplication {
         this.job_id = job_id;
         this.user_id = user_id;
         this.message = message;
+    }
+    @Override
+    public String toString () {
+        return "UserApplication{" +
+                "app_id=" + app_id +
+                ", job_id=" + job_id +
+                ", user_id=" + user_id +
+                ", applied_at=" + applied_at +
+                ", message='" + message + '\'' +
+                ", status=" + status +
+                '}';
     }
 
     public int getAppId() {
@@ -87,7 +98,7 @@ public class UserApplication {
         this.message = message;
     }
 
-    public AppStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -95,7 +106,7 @@ public class UserApplication {
         return status.toString();
     }
 
-    public void setStatus(AppStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
